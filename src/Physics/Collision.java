@@ -93,6 +93,7 @@ public class Collision {
 	}
 	
 	public static void collide(CircleObject c,RectangleObject r){
+		double deceleration = 0.5;
 		//gets the closest point on the rectangle to the circle
 		double closestX = MathsMethods.clamp(c.getX(), r.getLeft(), r.getRight());
 		double closestY = MathsMethods.clamp(c.getY(), r.getTop(), r.getBottom());
@@ -100,15 +101,18 @@ public class Collision {
 		
 		
 		if(closestX==r.getLeft()||closestX==r.getRight()){
-			c.setvX(c.getvX()*-1);
+			resolveCollision(c,r);
+			c.setvX(c.getvX()*-(1-deceleration));
 		}
 		
 		if(closestY==r.getTop()||closestY==r.getBottom()){
-			c.setvY(c.getvY()*-1);
+			resolveCollision(c,r);
+			c.setvY(c.getvY()*-(1-deceleration));
 		}
 	}
 	
 	public static void collide(CircleObject c,TriangleObject t){
+		double deceleration = 0.5;
 		
 		double[] normal = {1,t.getNormal()};
 		double[] normalVector = MathsMethods.vectorScale(normal, 1/Math.sqrt(MathsMethods.dotProduct2D(normal, normal)));
@@ -117,16 +121,9 @@ public class Collision {
 		double[] partOne = MathsMethods.vectorScale(normalVector, productNV*-2);
 		double[] newVelocity = MathsMethods.vectorAdd(velocityVector, partOne);
 		
-		//resolveCollision(c,t);
-		c.setvX(newVelocity[0]);
-		c.setvY(newVelocity[1]);
-		
-		
-		
-		
-		
-		
-		
+		resolveCollision(c,t);
+		c.setvX(newVelocity[0]*deceleration);
+		c.setvY(newVelocity[1]*deceleration);
 	}
 	
 	public static void resolveCollision(CircleObject c,TriangleObject t){
@@ -148,8 +145,18 @@ public class Collision {
 		
 	}
 	
-	private static void resolveCollision(){
-		//TODO resolve collision between rectangle and circle
+	private static void resolveCollision(CircleObject c,RectangleObject r){
+		//gets the closest point on the rectangle to the circle
+		double closestX = MathsMethods.clamp(c.getX(), r.getLeft(),r.getRight());
+		double closestY = MathsMethods.clamp(c.getY(), r.getTop(), r.getBottom());
+				
+		//distance between the closest point on the rectangle and the centre of the circle
+		double distance = c.getRadius()-MathsMethods.distance(closestX, closestY, c.getX(), c.getY());
+		double phi = PhysicsMethods.vectorAngle(closestX-c.getX(), closestY-c.getY());
+		double xDistance = distance*Math.cos(phi)*-1;
+		double yDistance = distance*Math.sin(phi)*-1;
+		c.setX(c.getX()+xDistance);
+		c.setY(c.getY()+yDistance);
 	}
 	
 	

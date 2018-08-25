@@ -83,6 +83,8 @@ public class SnookerBall extends CircleObject {
 	}
 	
 	private void move(){
+		vX*=0.9993;
+		vY*=0.9993;
 		x+=vX;
 		y+=vY;
 	}
