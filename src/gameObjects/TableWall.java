@@ -33,7 +33,7 @@ public class TableWall extends RectangleObject {
 	@Override
 	public void render(Graphics g) {
 		g.setColor(color);
-		g.fillRect((int)(x-halfWidth), (int)(y-halfHeight), (int)(width), (int)(height));
+		g.drawRect((int)(x-halfWidth), (int)(y-halfHeight), (int)(width), (int)(height));
 		
 	}
 

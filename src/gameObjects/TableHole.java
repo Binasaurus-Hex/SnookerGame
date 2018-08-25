@@ -23,7 +23,7 @@ public class TableHole extends CircleObject {
 	@Override
 	public void render(Graphics g) {
 		g.setColor(color);
-		g.fillOval((int)(x-radius),(int)(y-radius),(int)width,(int)height);
+		g.drawOval((int)(x-radius),(int)(y-radius),(int)width,(int)height);
 		
 	}
 

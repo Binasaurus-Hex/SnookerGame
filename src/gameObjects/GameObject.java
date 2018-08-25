@@ -14,6 +14,7 @@ public abstract class GameObject {
 	//created for collision detection purposes
 	protected double top,bottom,left,right;
 	protected double halfWidth,halfHeight;
+	public boolean visible = true;
 	
 	protected Game game;
 	

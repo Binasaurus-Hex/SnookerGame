@@ -20,6 +20,7 @@ public class Handler {
 	
 	public void render(Graphics g){
 		for(GameObject obj:objects){
+			if(obj.visible == true)
 			obj.render(g);
 		}
 		

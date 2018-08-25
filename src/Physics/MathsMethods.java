@@ -60,7 +60,7 @@ public class MathsMethods {
 	 * adds the two inputed vectors together
 	 */
 	public static double[] vectorAdd(double[] vector1, double[] vector2){
-		double[] added ={(vector1[0]+vector2[0]),(vector1[1]+vector1[1])};
+		double[] added ={(vector1[0]+vector2[0]),(vector1[1]+vector2[1])};
 		return added;
 	}
 	
@@ -93,6 +93,13 @@ public class MathsMethods {
 		double dy = abs(y2 - y1);
 		return Math.atan(dy / dx);
 		
+	}
+	/*
+	 * finds the angle between two lines
+	 */
+	public static double angle(double gradient1,double gradient2){
+		double angle = Math.atan((gradient2-gradient1)/(1+(gradient2*gradient1)));
+		return angle;
 	}
 	
 	/*

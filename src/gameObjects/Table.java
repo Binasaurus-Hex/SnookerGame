@@ -24,7 +24,7 @@ public class Table extends GameObject {
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(image, 100, 100, null);
+		g.drawImage(image,(int)(x),(int)(y),(int)(width),(int)(height), null);
 
 	}
 

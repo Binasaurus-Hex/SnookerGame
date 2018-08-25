@@ -9,7 +9,8 @@ import game.ID;
 
 public abstract class TriangleObject extends GameObject {
 	protected Polygon polygon = new Polygon();
-	protected double[] closestPoint;
+	protected double normal;
+	protected double[] closestPoint = new double[2];
 	
 
 	public TriangleObject(double x, double y, double width, double height, ID id, Game game) {
@@ -29,6 +30,14 @@ public abstract class TriangleObject extends GameObject {
 		this.polygon = polygon;
 	}
 
+	public double getNormal() {
+		return normal;
+	}
+
+	public void setNormal(double normal) {
+		this.normal = normal;
+	}
+
 	public double[] getClosestPoint() {
 		return closestPoint;
 	}
@@ -36,6 +45,10 @@ public abstract class TriangleObject extends GameObject {
 	public void setClosestPoint(double[] closestPoint) {
 		this.closestPoint = closestPoint;
 	}
+	
+	
+
+	
 	
 	
 	

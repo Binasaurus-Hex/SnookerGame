@@ -65,6 +65,7 @@ public class Collision {
 			double distance = MathsMethods.distance(closestX, closestY, c.getX(), c.getY());
 			
 			if(distance<c.getRadius()){
+				t.setNormal(normal);
 				double[] closestPoint = {closestX,closestY};
 				t.setClosestPoint(closestPoint);
 				return true;
@@ -93,7 +94,7 @@ public class Collision {
 	
 	public static void collide(CircleObject c,RectangleObject r){
 		//gets the closest point on the rectangle to the circle
-		double closestX = MathsMethods.clamp(c.getX(), r.getLeft(),r.getRight());
+		double closestX = MathsMethods.clamp(c.getX(), r.getLeft(), r.getRight());
 		double closestY = MathsMethods.clamp(c.getY(), r.getTop(), r.getBottom());
 		
 		
@@ -108,25 +109,33 @@ public class Collision {
 	}
 	
 	public static void collide(CircleObject c,TriangleObject t){
-		double circleSpeed = MathsMethods.length(c.getvX(), c.getvY());
-		double distanceX = t.getClosestPoint()[0]-c.getX();
-		double distanceY = t.getClosestPoint()[1]-c.getY();
-		double surfaceAngle = PhysicsMethods.vectorAngle(t.getClosestPoint()[0], t.getClosestPoint()[1]);
-		double phi = PhysicsMethods.vectorAngle(distanceX, distanceY);
-		double normalComp1 = circleSpeed*Math.cos(surfaceAngle)*-1;
-		double normalComp2 = circleSpeed*Math.sin(surfaceAngle);
-		double compX1 = normalComp1*Math.cos(phi);
-		double compY1 = normalComp1*Math.sin(phi);
-		double compX2 = normalComp2*Math.cos(phi);
-		double compY2 = normalComp2*Math.sin(phi);
 		
-		c.setvX(c.getvX()+compX1+compX2);
-		c.setvY(c.getvY()+compY1+compY2);
+		double[] normal = {1,t.getNormal()};
+		double[] normalVector = MathsMethods.vectorScale(normal, 1/Math.sqrt(MathsMethods.dotProduct2D(normal, normal)));
+		double[] velocityVector = {c.getvX(),c.getvY()};
+		double productNV = MathsMethods.dotProduct2D(velocityVector, normalVector);
+		double[] partOne = MathsMethods.vectorScale(normalVector, productNV*-2);
+		double[] newVelocity = MathsMethods.vectorAdd(velocityVector, partOne);
+		
+		//resolveCollision(c,t);
+		c.setvX(newVelocity[0]);
+		c.setvY(newVelocity[1]);
 		
 		
 		
 		
 		
+		
+		
+	}
+	
+	public static void resolveCollision(CircleObject c,TriangleObject t){
+		double distance = c.getRadius()-(MathsMethods.distance(c.getX(), c.getY(), t.getClosestPoint()[0], t.getClosestPoint()[1]));
+		double phi = PhysicsMethods.vectorAngle(t.getClosestPoint()[0]-c.getX(), t.getClosestPoint()[1]-c.getY());
+		double xDistance = distance*Math.cos(phi)*-1;
+		double yDistance = distance*Math.sin(phi)*-1;
+		c.setX(c.getX()+xDistance);
+		c.setY(c.getY()+yDistance);
 	}
 	
 	private static void resolveCollision(CircleObject c1,CircleObject c2){

@@ -21,8 +21,8 @@ public class TableCorner extends TriangleObject {
 
 	@Override
 	public void render(Graphics g) {
-		g.setColor(Color.white);
-		g.fillPolygon(polygon);
+		g.setColor(Color.blue);
+		g.drawPolygon(polygon);
 	}
 
 }

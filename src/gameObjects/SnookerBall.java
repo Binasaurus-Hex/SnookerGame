@@ -45,8 +45,8 @@ public class SnookerBall extends CircleObject {
 	
 		if(followMouse){
 		
-		double mouseX = MouseInfo.getPointerInfo().getLocation().getX();
-		double mouseY = MouseInfo.getPointerInfo().getLocation().getY();
+		double mouseX = MouseInfo.getPointerInfo().getLocation().getX()-5;
+		double mouseY = MouseInfo.getPointerInfo().getLocation().getY()-15;
 		
 		double xDistance = (mouseX-x)/20;
 		double yDistance = (mouseY-y)/20;
@@ -77,7 +77,7 @@ public class SnookerBall extends CircleObject {
 		}
 		
 		g.fillOval((int)(x-radius),(int)(y-radius),(int)radius*2,(int)radius*2);
-		g.drawLine((int)x, (int)y, (int)(x+vX*100), (int)(y+vY*100));
+		//g.drawLine((int)x, (int)y, (int)(x+vX*100), (int)(y+vY*100));
 		
 	
 	}
@@ -128,6 +128,10 @@ public class SnookerBall extends CircleObject {
 					collide(corner);
 					
 				}
+			case Table:
+				break;
+			default:
+				break;
 			}
 		}
 	}
