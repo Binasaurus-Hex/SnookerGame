@@ -9,9 +9,11 @@ import gameObjects.TableCorner;
 public class Test {
 
 	public static void main(String[] args) {
-		
-		
-		System.out.println(Math.sqrt(3)/2);
+
+		Game game = new Game();
+		SnookerBall ball2 = new SnookerBall(600,300,50,0.15,Color.red,game);
+		TableCorner corner = new TableCorner(0,0,100,100,game);
+		Collision.isColliding(ball2, corner);
 	}
 	
 

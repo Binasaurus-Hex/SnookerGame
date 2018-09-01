@@ -2,7 +2,6 @@ package gameObjects;
 
 import java.awt.Graphics;
 import java.util.LinkedList;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import game.Game;
 import game.ID;
@@ -133,7 +132,7 @@ public abstract class GameObject {
 
 
 	//updates the object(all logic code goes here)
-	public abstract void update(CopyOnWriteArrayList<GameObject> objects);
+	public abstract void update(LinkedList<GameObject> objects);
 	//renders the object onto the screen
 	public abstract void render(Graphics g);
 
