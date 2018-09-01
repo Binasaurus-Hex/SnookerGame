@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.util.LinkedList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import Physics.Collision;
 import game.Game;
@@ -14,6 +15,8 @@ public class SnookerBall extends CircleObject {
 	private Color color;
 	private boolean colliding = false;
 	private boolean followMouse = false;
+	private boolean hover = false;
+	private boolean collidable = true;
 
 	public SnookerBall(double x, double y,double radius,double mass,Color color,Game game) {
 		super(x, y, radius,mass,ID.SnookerBall,game);
@@ -37,14 +40,44 @@ public class SnookerBall extends CircleObject {
 	public void setFollowMouse(boolean followMouse) {
 		this.followMouse = followMouse;
 	}
+	
+	public boolean isColliding() {
+		return colliding;
+	}
+
+	public void setColliding(boolean colliding) {
+		this.colliding = colliding;
+	}
+
+	public boolean isHover() {
+		return hover;
+	}
+
+	public void setHover(boolean hover) {
+		this.hover = hover;
+	}
+	
+	public boolean isCollidable() {
+		return collidable;
+	}
+
+	public void setCollidable(boolean collidable) {
+		this.collidable = collidable;
+	}
 
 	@Override
-	public void update(LinkedList<GameObject> objects) {
+	public void update(CopyOnWriteArrayList<GameObject> objects) {
 		move();
-		
-	
 		if(followMouse){
+			moveToMouse();
+		}
+		if(collidable){
+			collisions(objects);
+		}
 		
+	}
+	
+	private void moveToMouse(){
 		double mouseX = MouseInfo.getPointerInfo().getLocation().getX()-5;
 		double mouseY = MouseInfo.getPointerInfo().getLocation().getY()-15;
 		
@@ -54,23 +87,12 @@ public class SnookerBall extends CircleObject {
 		vX = xDistance;
 		vY = yDistance;
 		return;
-			
-		}
-		collisions(objects);
-		if((x-radius<0)||(x+radius>game.getWindowWidth())){
-			vX*=-1;
-			colliding = true;
-		}
-		if((y-radius<0)||(y+radius>game.getWindowHeight())){
-			vY*=-1;
-			colliding = true;
-		}
 	}
 
 	@Override
 	public void render(Graphics g) {
 		if(colliding){
-			g.setColor(Color.blue);
+			g.setColor(color);
 		}
 		else{
 			g.setColor(color);
@@ -89,7 +111,7 @@ public class SnookerBall extends CircleObject {
 		y+=vY;
 	}
 	
-	private void collisions(LinkedList<GameObject> objects){
+	private void collisions(CopyOnWriteArrayList<GameObject> objects){
 		colliding = false;
 		
 		for(GameObject obj:objects){
@@ -111,7 +133,7 @@ public class SnookerBall extends CircleObject {
 				TableHole hole = (TableHole)obj;
 				if(isColliding(hole)){
 					colliding = true;
-					//collide(hole);
+					objects.remove(this);
 				}
 				break;
 			
@@ -130,6 +152,7 @@ public class SnookerBall extends CircleObject {
 					collide(corner);
 					
 				}
+				break;
 			case Table:
 				break;
 			default:

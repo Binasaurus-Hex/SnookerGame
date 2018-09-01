@@ -3,6 +3,7 @@ package gameObjects;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import game.Game;
 import game.ID;
@@ -17,7 +18,7 @@ public class Table extends GameObject {
 	}
 
 	@Override
-	public void update(LinkedList<GameObject> objects) {
+	public void update(CopyOnWriteArrayList<GameObject> objects) {
 		// TODO Auto-generated method stub
 
 	}

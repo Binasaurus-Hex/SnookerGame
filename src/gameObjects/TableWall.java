@@ -3,6 +3,7 @@ package gameObjects;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import game.Game;
 import game.ID;
@@ -26,7 +27,7 @@ public class TableWall extends RectangleObject {
 	}
 
 	@Override
-	public void update(LinkedList<GameObject> objects) {
+	public void update(CopyOnWriteArrayList<GameObject> objects) {
 		
 	}
 
