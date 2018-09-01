@@ -1,14 +1,14 @@
 package game;
 
 import java.awt.Graphics;
-import java.util.LinkedList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import gameObjects.GameObject;
 
 public class Handler {
-	private LinkedList<GameObject> objects;
+	private CopyOnWriteArrayList<GameObject> objects;
 	
-	public Handler(LinkedList<GameObject> objects){
+	public Handler(CopyOnWriteArrayList<GameObject> objects){
 		this.objects = objects;
 	}
 	
@@ -33,5 +33,15 @@ public class Handler {
 	public void remove(GameObject obj){
 		objects.remove(obj);
 	}
+
+	public CopyOnWriteArrayList<GameObject> getObjects() {
+		return objects;
+	}
+
+	public void setObjects(CopyOnWriteArrayList<GameObject> objects) {
+		this.objects = objects;
+	}
+	
+	
 
 }
