@@ -23,7 +23,6 @@ public class Handler {
 			if(obj.visible == true)
 			obj.render(g);
 		}
-		
 	}
 	
 	public void add(GameObject obj){
@@ -42,6 +41,4 @@ public class Handler {
 		this.objects = objects;
 	}
 	
-	
-
 }

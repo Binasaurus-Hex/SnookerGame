@@ -3,11 +3,8 @@ package gameObjects;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.MouseInfo;
-import java.awt.Point;
-import java.util.LinkedList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import Physics.Collision;
 import game.Game;
 import game.ID;
 
@@ -92,7 +89,17 @@ public class SnookerBall extends CircleObject {
 	@Override
 	public void render(Graphics g) {
 		if(colliding){
+			g.setColor(Color.blue);
+		}
+		if(hover){
+			g.setColor(Color.cyan);
+			double outerRingRadius = radius*1.2;
+			g.fillOval((int)(x-outerRingRadius),(int)(y-outerRingRadius),(int)outerRingRadius*2,(int)outerRingRadius*2);
+			
 			g.setColor(color);
+			g.fillOval((int)(x-radius),(int)(y-radius),(int)radius*2,(int)radius*2);
+			
+			return;
 		}
 		else{
 			g.setColor(color);

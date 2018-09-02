@@ -197,9 +197,9 @@ public class ObjectCreator {
 		
 		//making the balls
 		SnookerBall cueBall = new SnookerBall(100,200,15,1,Color.white,game);
-		cueBall.setFollowMouse(true);
+		//cueBall.setFollowMouse(true);
 		cueBall.visible = true;
-		cueBall.setCollidable(false);
+		//cueBall.setCollidable(false);
 		balls.add(cueBall);
 		
 		SnookerBall ball_1 = new SnookerBall(200,200,15,1,Color.red,game);

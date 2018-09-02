@@ -1,31 +1,49 @@
 package UI;
 
-import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import game.Game;
 import game.ID;
 import gameObjects.GameObject;
 
-public class UI_Object extends GameObject{
+public abstract class UI_Object extends GameObject{
+	protected boolean hover = false;
+	protected boolean selected = false;
+	protected boolean selectable = false;
+	protected MenuID menuID;
 
-	public UI_Object(double x, double y, double width, double height, ID id, Game game) {
+	public UI_Object(double x, double y, double width, double height, ID id,MenuID menuID,Game game) {
 		super(x, y, width, height, id, game);
-		// TODO Auto-generated constructor stub
+		this.setMenuID(menuID);
 	}
 
-	@Override
-	public void update(CopyOnWriteArrayList<GameObject> objects) {
-		// TODO Auto-generated method stub
-		
+	public boolean isHover() {
+		return hover;
 	}
 
-	@Override
-	public void render(Graphics g) {
-		// TODO Auto-generated method stub
-		
+
+	public void setHover(boolean hover) {
+		this.hover = hover;
+	}
+
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+
+
+	public boolean isSelectable() {
+		return selectable;
+	}
+
+
+	public void setSelectable(boolean selectable) {
+		this.selectable = selectable;
 	}
 	
 	public boolean isColliding(Point point){
@@ -38,7 +56,12 @@ public class UI_Object extends GameObject{
 			return false;
 		}
 	}
-	
-	
 
+	public MenuID getMenuID() {
+		return menuID;
+	}
+
+	public void setMenuID(MenuID menuID) {
+		this.menuID = menuID;
+	}
 }

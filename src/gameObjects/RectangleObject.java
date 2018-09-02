@@ -1,7 +1,5 @@
 package gameObjects;
 
-import java.awt.Graphics;
-
 import Physics.Collision;
 import game.Game;
 import game.ID;

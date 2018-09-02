@@ -3,17 +3,12 @@ package game;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.MouseInfo;
 import java.awt.image.BufferStrategy;
-import java.util.LinkedList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import UI.MenuButton;
+import UI.MenuID;
 import gameObjects.GameObject;
-import gameObjects.SnookerBall;
-import gameObjects.Table;
-import gameObjects.TableCorner;
-import gameObjects.TableHole;
-import gameObjects.TableWall;
 
 public class Game extends Canvas implements Runnable{
 	
@@ -22,6 +17,8 @@ public class Game extends Canvas implements Runnable{
 	private int windowHeight = 720;
 	private Window window;
 	private Handler handler;
+	private Handler mainMenuHandler;
+	private Handler pauseMenuHandler;
 	private String name = "SnookerGame";
 	private Thread thread;
 	private boolean running = false;
@@ -29,10 +26,28 @@ public class Game extends Canvas implements Runnable{
 	public GameState currentState;
 	
 	public Game(){
-		currentState = GameState.Game;
+		currentState = GameState.MainMenu;
 		window = new Window(windowWidth,windowHeight,this,name);
+		
+		cueSystem = new CueSystem();
+		
 		CopyOnWriteArrayList<GameObject> objects = initObjects();
 		handler = new Handler(objects);
+		
+		MenuButton start = new MenuButton(500,100,300,100,ID.UI_Object,MenuID.PlayGame,this);
+		start.visible = true;
+		start.setSelectable(true);
+		CopyOnWriteArrayList<GameObject> mainMenuObjects = new CopyOnWriteArrayList<GameObject>();
+		mainMenuObjects.add(start);
+		mainMenuHandler = new Handler(mainMenuObjects);
+		
+		CopyOnWriteArrayList<GameObject> pauseMenuObjects = null;
+		pauseMenuHandler = new Handler(pauseMenuObjects);
+		
+		MouseInput mouseInput = new MouseInput(this);
+		this.addMouseMotionListener(mouseInput);
+		this.addMouseListener(mouseInput);
+		
 	}
 
 	//loop of the entire game
@@ -89,9 +104,11 @@ public class Game extends Canvas implements Runnable{
 			//main game update
 			break;
 		case PauseMenu:
+			pauseMenuHandler.update();
 			//pause menu update
 			break;
 		case MainMenu:
+			mainMenuHandler.update();
 			//main menu update
 			break;
 		}
@@ -113,7 +130,18 @@ public class Game extends Canvas implements Runnable{
 			//sets a black background
 			g.setColor(Color.black);
 			g.fillRect(0, 0, windowWidth, windowHeight);
-			handler.render(g);
+			switch(currentState){
+			case Game:
+				handler.render(g);
+				break;
+			case PauseMenu:
+				pauseMenuHandler.render(g);
+				break;
+			case MainMenu:
+				mainMenuHandler.render(g);
+				break;
+			}
+			
 			buffer.show();
 			g.dispose();
 		}
@@ -144,7 +172,22 @@ public class Game extends Canvas implements Runnable{
 	public CueSystem getCueSystem() {
 		return cueSystem;
 	}
+	
+	public Handler getMainMenuHandler() {
+		return mainMenuHandler;
+	}
 
+	public void setMainMenuHandler(Handler mainMenuHandler) {
+		this.mainMenuHandler = mainMenuHandler;
+	}
+
+	public Handler getPauseMenuHandler() {
+		return pauseMenuHandler;
+	}
+
+	public void setPauseMenuHandler(Handler pauseMenuHandler) {
+		this.pauseMenuHandler = pauseMenuHandler;
+	}
 
 	public static void main(String[] a){
 		Game game = new Game();
