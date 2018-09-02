@@ -25,7 +25,8 @@ public class MouseInput extends MouseAdapter {
 			SnookerBall cueBall = cueSystem.getCueBall(objects);
 			if(cueBall == null)break;
 			if(MathsMethods.distance(cueBall.getX(), cueBall.getY(), mouse.getX(), mouse.getY())<cueBall.getRadius()){
-				System.out.println("CueClicked");
+				cueBall.setFollowMouse(true);
+				cueBall.setSelected(true);
 			}
 			
 			break;
@@ -57,7 +58,13 @@ public class MouseInput extends MouseAdapter {
 			SnookerBall cueBall = cueSystem.getCueBall(objects);
 			if(cueBall == null)break;
 			if(MathsMethods.distance(cueBall.getX(), cueBall.getY(), mouse.getX(), mouse.getY())<cueBall.getRadius()){
-				cueBall.setHover(true);
+				if(cueBall.isSelected()){
+					cueBall.setHover(false);
+				}
+				else{
+					cueBall.setHover(true);
+				}
+				
 			}
 			else{
 				cueBall.setHover(false);
@@ -85,6 +92,9 @@ public class MouseInput extends MouseAdapter {
 				UI_Object ui = (UI_Object)obj;
 				if(ui.isColliding(point)){
 					return ui;
+				}
+				else{
+					ui.setHover(false);
 				}
 			}
 		}

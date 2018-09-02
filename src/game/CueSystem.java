@@ -70,7 +70,7 @@ public class CueSystem {
 		for(GameObject obj: objects){
 			if(obj.getId()==ID.SnookerBall){
 				SnookerBall ball = (SnookerBall)obj;
-				if(ball.getColor()==Color.white){
+				if((ball.getColor()==Color.white)){
 					return ball;
 				}
 			}

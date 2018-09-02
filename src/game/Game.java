@@ -48,6 +48,9 @@ public class Game extends Canvas implements Runnable{
 		this.addMouseMotionListener(mouseInput);
 		this.addMouseListener(mouseInput);
 		
+		KeyInput keyInput = new KeyInput(this);
+		this.addKeyListener(keyInput);
+		
 	}
 
 	//loop of the entire game

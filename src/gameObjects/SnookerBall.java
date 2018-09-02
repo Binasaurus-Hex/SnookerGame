@@ -14,6 +14,8 @@ public class SnookerBall extends CircleObject {
 	private boolean followMouse = false;
 	private boolean hover = false;
 	private boolean collidable = true;
+	private boolean selectable = true;
+	private boolean selected = false;
 
 	public SnookerBall(double x, double y,double radius,double mass,Color color,Game game) {
 		super(x, y, radius,mass,ID.SnookerBall,game);
@@ -65,7 +67,11 @@ public class SnookerBall extends CircleObject {
 	@Override
 	public void update(CopyOnWriteArrayList<GameObject> objects) {
 		move();
+		if(selected){
+			hover = false;
+		}
 		if(followMouse){
+			selectable=false;
 			moveToMouse();
 		}
 		if(collidable){
@@ -112,8 +118,9 @@ public class SnookerBall extends CircleObject {
 	}
 	
 	private void move(){
-		vX*=0.9993;
-		vY*=0.9993;
+		double deceleration = 0.0007;
+		vX*=1-deceleration;
+		vY*=1-deceleration;
 		x+=vX;
 		y+=vY;
 	}
@@ -166,6 +173,22 @@ public class SnookerBall extends CircleObject {
 				break;
 			}
 		}
+	}
+
+	public boolean isSelectable() {
+		return selectable;
+	}
+
+	public void setSelectable(boolean selectable) {
+		this.selectable = selectable;
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 
 }

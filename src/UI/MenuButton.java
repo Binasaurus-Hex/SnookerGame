@@ -28,7 +28,10 @@ public class MenuButton extends UI_Object {
 
 	@Override
 	public void render(Graphics g) {
-		System.out.println("rendered");
+		if(hover){
+			g.setColor(Color.cyan);
+			g.fillRect((int)(x-10), (int)(y-10),(int)(width+20),(int)(height+20));
+		}
 		g.setColor(Color.red);
 		g.fillRect((int)(x),(int)(y), (int)width, (int)height);
 		g.setColor(Color.white);
