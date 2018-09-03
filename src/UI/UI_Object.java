@@ -11,10 +11,12 @@ public abstract class UI_Object extends GameObject{
 	protected boolean selected = false;
 	protected boolean selectable = false;
 	protected MenuID menuID;
+	protected String name;
 
-	public UI_Object(double x, double y, double width, double height, ID id,MenuID menuID,Game game) {
-		super(x, y, width, height, id, game);
+	public UI_Object(double x, double y, double width, double height,MenuID menuID,Game game) {
+		super(x, y, width, height, ID.UI_Object, game);
 		this.setMenuID(menuID);
+		this.name = menuID.getValue();
 	}
 
 	public boolean isHover() {

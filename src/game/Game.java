@@ -8,6 +8,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import UI.MenuButton;
 import UI.MenuID;
+import UI.MenuLabel;
 import gameObjects.GameObject;
 
 public class Game extends Canvas implements Runnable{
@@ -38,11 +39,16 @@ public class Game extends Canvas implements Runnable{
 		CopyOnWriteArrayList<GameObject> objects = initObjects();
 		handler = new Handler(objects);
 		
-		MenuButton start = new MenuButton(500,100,300,100,ID.UI_Object,MenuID.PlayGame,this);
+		MenuButton start = new MenuButton(500,100,300,100,MenuID.PlayGame,this);
 		start.visible = true;
 		start.setSelectable(true);
+		MenuLabel controls = new MenuLabel(500,250,500,100,MenuID.Controls,this);
+		controls.visible = true;
+		controls.setSelectable(true);
+		
 		CopyOnWriteArrayList<GameObject> mainMenuObjects = new CopyOnWriteArrayList<GameObject>();
 		mainMenuObjects.add(start);
+		mainMenuObjects.add(controls);
 		mainMenuHandler = new Handler(mainMenuObjects);
 		
 		CopyOnWriteArrayList<GameObject> pauseMenuObjects = null;

@@ -14,7 +14,6 @@ public class KeyInput extends KeyAdapter {
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
 		String key = KeyEvent.getKeyText(keyCode);
-		System.out.println(key);
 		switch(key){
 		case "F":
 			SnookerBall cueBall = game.getCueSystem().getCueBall();

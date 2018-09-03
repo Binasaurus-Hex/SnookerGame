@@ -11,11 +11,10 @@ import game.ID;
 import gameObjects.GameObject;
 
 public class MenuButton extends UI_Object {
-	private String name;
 
-	public MenuButton(double x, double y, double width, double height, ID id,MenuID menuID, Game game) {
-		super(x, y, width, height, id, menuID, game);
-		this.name = menuID.getValue();
+	public MenuButton(double x, double y, double width, double height,MenuID menuID, Game game) {
+		super(x, y, width, height, menuID, game);
+		
 	}
 
 	@Override
