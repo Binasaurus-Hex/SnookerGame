@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.MouseInfo;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import game.ControlMode;
 import game.Game;
 import game.ID;
 
@@ -16,6 +17,7 @@ public class SnookerBall extends CircleObject {
 	private boolean collidable = true;
 	private boolean selectable = true;
 	private boolean selected = false;
+	private boolean moveable = true;
 
 	public SnookerBall(double x, double y,double radius,double mass,Color color,Game game) {
 		super(x, y, radius,mass,ID.SnookerBall,game);
@@ -66,12 +68,10 @@ public class SnookerBall extends CircleObject {
 
 	@Override
 	public void update(CopyOnWriteArrayList<GameObject> objects) {
-		move();
-		if(selected){
-			hover = false;
+		if(moveable){
+			move();
 		}
 		if(followMouse){
-			selectable=false;
 			moveToMouse();
 		}
 		if(collidable){
@@ -101,24 +101,16 @@ public class SnookerBall extends CircleObject {
 			g.setColor(Color.cyan);
 			double outerRingRadius = radius*1.2;
 			g.fillOval((int)(x-outerRingRadius),(int)(y-outerRingRadius),(int)outerRingRadius*2,(int)outerRingRadius*2);
-			
-			g.setColor(color);
-			g.fillOval((int)(x-radius),(int)(y-radius),(int)radius*2,(int)radius*2);
-			
-			return;
 		}
-		else{
-			g.setColor(color);
-		}
-		
+		g.setColor(color);
 		g.fillOval((int)(x-radius),(int)(y-radius),(int)radius*2,(int)radius*2);
-		//g.drawLine((int)x, (int)y, (int)(x+vX*100), (int)(y+vY*100));
-		
-	
+		if(selected && game.controlMode == ControlMode.Cue){
+			g.drawLine((int)x, (int)y, (int)(x+(vX*100)), (int)(y+(vY*100)));
+		}
 	}
 	
 	private void move(){
-		double deceleration = 0.0007;
+		double deceleration = 0.0017;
 		vX*=1-deceleration;
 		vY*=1-deceleration;
 		x+=vX;
@@ -146,6 +138,8 @@ public class SnookerBall extends CircleObject {
 			case TableHole:
 				TableHole hole = (TableHole)obj;
 				if(isColliding(hole)){
+					game.score++;
+					System.out.println(game.score);
 					colliding = true;
 					objects.remove(this);
 				}
@@ -172,6 +166,40 @@ public class SnookerBall extends CircleObject {
 			default:
 				break;
 			}
+		}
+	}
+	
+	public void grab(){
+		switch(game.controlMode){
+		case Mouse:
+			selectable = false;
+			selected = true;
+			hover = true;
+			followMouse = true;
+			break;
+		case Cue:
+			moveable = false;
+			selectable = false;
+			selected = true;
+			hover = true;
+			break;
+		}
+	}
+	
+	public void release(){
+		switch(game.controlMode){
+		case Mouse:
+			selectable = true;
+			selected = false;
+			hover = true;
+			followMouse = false;
+			break;
+		case Cue:
+			moveable = true;
+			selectable = true;
+			selected = false;
+			hover = false;
+			break;
 		}
 	}
 

@@ -8,65 +8,15 @@ import gameObjects.GameObject;
 import gameObjects.SnookerBall;
 
 public class CueSystem {
-	private Point lastMouse;
-	private Point currentMouse;
-	private boolean mousePressed;
-	private boolean mouseReleased;
+	private Game game;
 	
 	
-	public CueSystem(){
-		
+	public CueSystem(Game game){
+		this.game = game;
 	}
 	
-	public Point getLastMouse() {
-		return lastMouse;
-	}
-
-
-
-	public void setLastMouse(Point lastMouse) {
-		this.lastMouse = lastMouse;
-	}
-
-
-
-	public Point getCurrentMouse() {
-		return currentMouse;
-	}
-
-
-
-	public void setCurrentMouse(Point currentMouse) {
-		this.currentMouse = currentMouse;
-	}
-
-
-
-	public boolean isMousePressed() {
-		return mousePressed;
-	}
-
-
-
-	public void setMousePressed(boolean mousePressed) {
-		this.mousePressed = mousePressed;
-	}
-
-
-
-	public boolean isMouseReleased() {
-		return mouseReleased;
-	}
-
-
-
-	public void setMouseReleased(boolean mouseReleased) {
-		this.mouseReleased = mouseReleased;
-	}
-
-
-
-	public SnookerBall getCueBall(CopyOnWriteArrayList<GameObject> objects){
+	public SnookerBall getCueBall(){
+		CopyOnWriteArrayList<GameObject> objects = game.getHandler().getObjects();
 		for(GameObject obj: objects){
 			if(obj.getId()==ID.SnookerBall){
 				SnookerBall ball = (SnookerBall)obj;
@@ -78,7 +28,16 @@ public class CueSystem {
 		return null;
 	}
 	
-	
-	
-
+	public void hitCueBall(Point mouse){
+		SnookerBall cueBall = getCueBall();
+		double distanceX = cueBall.getX()-mouse.getX();
+		double distanceY = cueBall.getY()-mouse.getY();
+		
+		double newX = distanceX/100;
+		double newY = distanceY/100;
+		
+		cueBall.setvX(newX);
+		cueBall.setvY(newY);
+		
+	}
 }

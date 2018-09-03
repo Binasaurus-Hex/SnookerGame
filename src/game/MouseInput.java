@@ -21,12 +21,10 @@ public class MouseInput extends MouseAdapter {
 		switch(game.currentState){
 		case Game:
 			CueSystem cueSystem = game.getCueSystem();
-			CopyOnWriteArrayList<GameObject> objects = game.getHandler().getObjects();
-			SnookerBall cueBall = cueSystem.getCueBall(objects);
+			SnookerBall cueBall = cueSystem.getCueBall();
 			if(cueBall == null)break;
 			if(MathsMethods.distance(cueBall.getX(), cueBall.getY(), mouse.getX(), mouse.getY())<cueBall.getRadius()){
-				cueBall.setFollowMouse(true);
-				cueBall.setSelected(true);
+				cueBall.grab();
 			}
 			
 			break;
@@ -50,21 +48,15 @@ public class MouseInput extends MouseAdapter {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
+		
 		Point mouse = e.getPoint();
 		switch(game.currentState){
 		case Game:
 			CueSystem cueSystem = game.getCueSystem();
-			CopyOnWriteArrayList<GameObject> objects = game.getHandler().getObjects();
-			SnookerBall cueBall = cueSystem.getCueBall(objects);
+			SnookerBall cueBall = cueSystem.getCueBall();
 			if(cueBall == null)break;
 			if(MathsMethods.distance(cueBall.getX(), cueBall.getY(), mouse.getX(), mouse.getY())<cueBall.getRadius()){
-				if(cueBall.isSelected()){
-					cueBall.setHover(false);
-				}
-				else{
-					cueBall.setHover(true);
-				}
-				
+				cueBall.setHover(true);
 			}
 			else{
 				cueBall.setHover(false);
@@ -86,6 +78,26 @@ public class MouseInput extends MouseAdapter {
 			break;
 		}
 	}
+	
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		Point mouse = e.getPoint();
+		switch(game.currentState){
+		case Game:
+			CueSystem cueSystem = game.getCueSystem();
+			SnookerBall cueBall = cueSystem.getCueBall();
+			if(cueBall.isSelected()&& game.controlMode == ControlMode.Cue){
+				cueSystem.hitCueBall(mouse);
+			}
+		case MainMenu:
+			break;
+		case PauseMenu:
+			break;
+		default:
+			break;
+		}
+	}
+		
 	private UI_Object getMenuObject(CopyOnWriteArrayList<GameObject> menuObjects, Point point){
 		for(GameObject obj : menuObjects){
 			if(obj.getId() == ID.UI_Object){
@@ -103,8 +115,21 @@ public class MouseInput extends MouseAdapter {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		super.mouseReleased(e);
+		switch(game.currentState){
+		case Game:
+			CueSystem cueSystem = game.getCueSystem();
+			SnookerBall cueBall = cueSystem.getCueBall();
+			if(cueBall == null)break;
+			if(cueBall.isSelected()){
+				cueBall.release();
+			}
+		case MainMenu:
+			break;
+		case PauseMenu:
+			break;
+		default:
+			break;
+		}
 	}
 
 }

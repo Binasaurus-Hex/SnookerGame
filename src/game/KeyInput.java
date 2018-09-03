@@ -12,14 +12,30 @@ public class KeyInput extends KeyAdapter {
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
-		char key = e.getKeyChar();
+		int keyCode = e.getKeyCode();
+		String key = KeyEvent.getKeyText(keyCode);
+		System.out.println(key);
 		switch(key){
-		case 'f':
-			SnookerBall cueBall = game.getCueSystem().getCueBall(game.getHandler().getObjects());
-			cueBall.setFollowMouse(false);
-			cueBall.setSelected(false);
-			cueBall.setSelectable(true);
+		case "F":
+			SnookerBall cueBall = game.getCueSystem().getCueBall();
+			cueBall.release();
+			break;
+		case "Escape":
+			game.menu();
+			break;
+		case "B":
+			game.reset();
+			break;
+		case "M":
+			if(game.controlMode == ControlMode.Cue){
+				game.controlMode = ControlMode.Mouse;
+			}
+			else{
+				game.controlMode = ControlMode.Cue;
+			}
+		
 		}
+		
 	}
 	
 	

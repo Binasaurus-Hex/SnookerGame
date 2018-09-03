@@ -20,8 +20,21 @@ public class MenuButton extends UI_Object {
 
 	@Override
 	public void update(CopyOnWriteArrayList<GameObject> objects) {
-		if(isSelected()&& menuID == MenuID.PlayGame){
-			game.currentState = GameState.Game;
+		if(selected){
+			switch(menuID){
+			case Controls:
+				break;
+			case Exit:
+				break;
+			case PlayGame:
+				game.play();
+				selected = false;
+				break;
+			case Settings:
+				break;
+			default:
+				break;
+			}
 		}
 		
 	}

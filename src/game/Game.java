@@ -24,12 +24,16 @@ public class Game extends Canvas implements Runnable{
 	private boolean running = false;
 	private CueSystem cueSystem;
 	public GameState currentState;
+	public ControlMode controlMode;
+	
+	public int score = 0;
 	
 	public Game(){
+		controlMode = ControlMode.Mouse;
 		currentState = GameState.MainMenu;
 		window = new Window(windowWidth,windowHeight,this,name);
 		
-		cueSystem = new CueSystem();
+		cueSystem = new CueSystem(this);
 		
 		CopyOnWriteArrayList<GameObject> objects = initObjects();
 		handler = new Handler(objects);
@@ -104,6 +108,7 @@ public class Game extends Canvas implements Runnable{
 		switch(currentState){
 		case Game:
 			handler.update();
+			
 			//main game update
 			break;
 		case PauseMenu:
@@ -158,6 +163,10 @@ public class Game extends Canvas implements Runnable{
 		currentState = GameState.Game;
 	}
 	
+	public void menu(){
+		currentState = GameState.MainMenu;
+	}
+	
 	public int getWindowWidth() {
 		return windowWidth;
 	}
@@ -201,6 +210,11 @@ public class Game extends Canvas implements Runnable{
 		ObjectCreator objectCreator = new ObjectCreator(this);
 		CopyOnWriteArrayList<GameObject> objects = objectCreator.getObjectList();
 		return objects;
+	}
+	
+	public void reset(){
+		score = 0;
+		handler.setObjects(initObjects());
 	}
 
 }
