@@ -3,7 +3,6 @@ package Physics;
 import static java.lang.Math.*;
 
 import gameObjects.CircleObject;
-import gameObjects.SnookerBall;
 /*
  * a class for physics specific to planets
  */

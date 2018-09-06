@@ -1,11 +1,8 @@
 package Physics;
 
 import java.awt.Polygon;
-import java.awt.geom.PathIterator;
-
 import gameObjects.CircleObject;
 import gameObjects.RectangleObject;
-import gameObjects.SnookerBall;
 import gameObjects.TriangleObject;
 
 public class Collision {

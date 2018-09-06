@@ -6,8 +6,6 @@ import java.awt.Graphics;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import game.Game;
-import game.GameState;
-import game.ID;
 import gameObjects.GameObject;
 
 public class MenuButton extends UI_Object {

@@ -17,6 +17,7 @@ public abstract class UI_Object extends GameObject{
 		super(x, y, width, height, ID.UI_Object, game);
 		this.setMenuID(menuID);
 		this.name = menuID.getValue();
+		this.visible = true;
 	}
 
 	public boolean isHover() {

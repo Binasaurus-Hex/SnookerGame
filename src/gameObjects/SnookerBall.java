@@ -2,22 +2,23 @@ package gameObjects;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.MouseInfo;
+import java.awt.Point;
 import java.util.concurrent.CopyOnWriteArrayList;
-
 import game.ControlMode;
 import game.Game;
 import game.ID;
+import game.Sound;
 
 public class SnookerBall extends CircleObject {
 	private Color color;
 	private boolean colliding = false;
-	private boolean followMouse = false;
 	private boolean hover = false;
 	private boolean collidable = true;
 	private boolean selectable = true;
 	private boolean selected = false;
 	private boolean moveable = true;
+	private Point mouse = new Point();
+	Sound snookerSound = new Sound("/ballHit.wav");
 
 	public SnookerBall(double x, double y,double radius,double mass,Color color,Game game) {
 		super(x, y, radius,mass,ID.SnookerBall,game);
@@ -32,14 +33,6 @@ public class SnookerBall extends CircleObject {
 
 	public void setColor(Color color) {
 		this.color = color;
-	}
-
-	public boolean isFollowMouse() {
-		return followMouse;
-	}
-
-	public void setFollowMouse(boolean followMouse) {
-		this.followMouse = followMouse;
 	}
 	
 	public boolean isColliding() {
@@ -71,18 +64,19 @@ public class SnookerBall extends CircleObject {
 		if(moveable){
 			move();
 		}
-		if(followMouse){
-			moveToMouse();
+		if(selected && game.controlMode == ControlMode.Mouse){
+			moveToPoint(mouse);
 		}
+		
 		if(collidable){
 			collisions(objects);
 		}
 		
 	}
 	
-	private void moveToMouse(){
-		double mouseX = MouseInfo.getPointerInfo().getLocation().getX()-5;
-		double mouseY = MouseInfo.getPointerInfo().getLocation().getY()-15;
+	private void moveToPoint(Point mouse){
+		double mouseX = mouse.getX();
+		double mouseY = mouse.getY();
 		
 		double xDistance = (mouseX-x)/20;
 		double yDistance = (mouseY-y)/20;
@@ -131,6 +125,7 @@ public class SnookerBall extends CircleObject {
 						if(!colliding){
 							colliding = true;
 							collide(ball);
+							snookerSound.play();
 						}
 					}
 				}
@@ -175,7 +170,6 @@ public class SnookerBall extends CircleObject {
 			selectable = false;
 			selected = true;
 			hover = true;
-			followMouse = true;
 			break;
 		case Cue:
 			moveable = false;
@@ -191,8 +185,7 @@ public class SnookerBall extends CircleObject {
 		case Mouse:
 			selectable = true;
 			selected = false;
-			hover = true;
-			followMouse = false;
+			hover = false;
 			break;
 		case Cue:
 			moveable = true;
@@ -217,6 +210,10 @@ public class SnookerBall extends CircleObject {
 
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+	}
+
+	public void setMouse(Point mouse) {
+		this.mouse = mouse;
 	}
 
 }

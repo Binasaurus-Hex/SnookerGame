@@ -3,10 +3,15 @@ package UI;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.TextArea;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import javax.swing.JFormattedTextField;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
 import game.Game;
-import game.ID;
 import gameObjects.GameObject;
 
 public class MenuLabel extends UI_Object {
@@ -29,12 +34,11 @@ public class MenuLabel extends UI_Object {
 		Font font1 = new Font("Impact",Font.PLAIN,20);
 		g.setFont(font1);
 		g.drawString(name, (int)(x), (int)(y));
-		Font font2 = new Font("Impact",Font.PLAIN,15);
 		g.drawString("b = resets objects",(int) x,(int)y+20);
 		g.drawString("m = toggles between grab and pull and release modes",(int) x,(int) y+40);
+		
 		g.drawString("escape = goes to menu",(int) x,(int) y+60);
 		g.drawString("f = force releases ball if grabbing",(int) x,(int) y+80);
-
 	}
 
 }

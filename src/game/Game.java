@@ -16,6 +16,7 @@ public class Game extends Canvas implements Runnable{
 	private static final long serialVersionUID = 1L;
 	private int windowWidth = 1280;
 	private int windowHeight = 720;
+	@SuppressWarnings("unused")
 	private Window window;
 	private Handler handler;
 	private Handler mainMenuHandler;
@@ -26,14 +27,22 @@ public class Game extends Canvas implements Runnable{
 	private CueSystem cueSystem;
 	public GameState currentState;
 	public ControlMode controlMode;
+	private int fps;
+	public Sound music;
 	
 	public int score = 0;
 	
 	public Game(){
+		//initializing the main game music
+		music = new Sound("/Music.wav");
+		
+		//initialising the default state of the game 
 		controlMode = ControlMode.Mouse;
 		currentState = GameState.MainMenu;
-		window = new Window(windowWidth,windowHeight,this,name);
 		
+		//initialising the window
+		window = new Window(windowWidth,windowHeight,this,name);
+
 		cueSystem = new CueSystem(this);
 		
 		CopyOnWriteArrayList<GameObject> objects = initObjects();
@@ -43,8 +52,6 @@ public class Game extends Canvas implements Runnable{
 		start.visible = true;
 		start.setSelectable(true);
 		MenuLabel controls = new MenuLabel(500,250,500,100,MenuID.Controls,this);
-		controls.visible = true;
-		controls.setSelectable(true);
 		
 		CopyOnWriteArrayList<GameObject> mainMenuObjects = new CopyOnWriteArrayList<GameObject>();
 		mainMenuObjects.add(start);
@@ -85,6 +92,7 @@ public class Game extends Canvas implements Runnable{
 			
 			if(System.currentTimeMillis() - timer > 1000){
 				timer += 1000;
+				fps = frames;
 				System.out.println("FPS: "+ frames);
 				frames = 0;
 			}
@@ -113,15 +121,17 @@ public class Game extends Canvas implements Runnable{
 	public void update(){
 		switch(currentState){
 		case Game:
+			if(!music.isPlaying())music.loop();
 			handler.update();
-			
 			//main game update
 			break;
 		case PauseMenu:
+			music.stop();
 			pauseMenuHandler.update();
 			//pause menu update
 			break;
 		case MainMenu:
+			music.stop();
 			mainMenuHandler.update();
 			//main menu update
 			break;
@@ -205,6 +215,11 @@ public class Game extends Canvas implements Runnable{
 
 	public void setPauseMenuHandler(Handler pauseMenuHandler) {
 		this.pauseMenuHandler = pauseMenuHandler;
+	}
+	
+
+	public int getFps() {
+		return fps;
 	}
 
 	public static void main(String[] a){

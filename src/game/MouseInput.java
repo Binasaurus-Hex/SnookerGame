@@ -25,6 +25,7 @@ public class MouseInput extends MouseAdapter {
 			if(cueBall == null)break;
 			if(MathsMethods.distance(cueBall.getX(), cueBall.getY(), mouse.getX(), mouse.getY())<cueBall.getRadius()){
 				cueBall.grab();
+				cueBall.setMouse(mouse);
 			}
 			
 			break;
@@ -86,9 +87,15 @@ public class MouseInput extends MouseAdapter {
 		case Game:
 			CueSystem cueSystem = game.getCueSystem();
 			SnookerBall cueBall = cueSystem.getCueBall();
-			if(cueBall.isSelected()&& game.controlMode == ControlMode.Cue){
-				cueSystem.hitCueBall(mouse);
+			if(cueBall.isSelected()){
+				if(game.controlMode == ControlMode.Cue){
+					cueSystem.hitCueBall(mouse);
+				}
+				else if(game.controlMode == ControlMode.Mouse){
+					cueBall.setMouse(mouse);
+				}
 			}
+			
 		case MainMenu:
 			break;
 		case PauseMenu:
@@ -121,6 +128,7 @@ public class MouseInput extends MouseAdapter {
 			SnookerBall cueBall = cueSystem.getCueBall();
 			if(cueBall == null)break;
 			if(cueBall.isSelected()){
+				cueBall.setCollidable(true);
 				cueBall.release();
 			}
 		case MainMenu:

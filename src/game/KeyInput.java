@@ -14,9 +14,9 @@ public class KeyInput extends KeyAdapter {
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
 		String key = KeyEvent.getKeyText(keyCode);
+		SnookerBall cueBall = game.getCueSystem().getCueBall();
 		switch(key){
 		case "F":
-			SnookerBall cueBall = game.getCueSystem().getCueBall();
 			cueBall.release();
 			break;
 		case "Escape":
@@ -26,6 +26,7 @@ public class KeyInput extends KeyAdapter {
 			game.reset();
 			break;
 		case "M":
+			if(cueBall.isSelected())break;
 			if(game.controlMode == ControlMode.Cue){
 				game.controlMode = ControlMode.Mouse;
 			}
