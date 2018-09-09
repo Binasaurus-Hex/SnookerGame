@@ -28,13 +28,15 @@ public class Game extends Canvas implements Runnable{
 	public GameState currentState;
 	public ControlMode controlMode;
 	private int fps;
-	public Sound music;
+	public Sound gameMusic;
+	public Sound menuMusic;
 	
 	public int score = 0;
 	
 	public Game(){
 		//initializing the main game music
-		music = new Sound("/Music.wav");
+		gameMusic = new Sound("/Music.wav");
+		menuMusic = new Sound("/AliA.wav");
 		
 		//initialising the default state of the game 
 		controlMode = ControlMode.Mouse;
@@ -51,7 +53,7 @@ public class Game extends Canvas implements Runnable{
 		MenuButton start = new MenuButton(500,100,300,100,MenuID.PlayGame,this);
 		start.visible = true;
 		start.setSelectable(true);
-		MenuLabel controls = new MenuLabel(500,250,500,100,MenuID.Controls,this);
+		MenuLabel controls = new MenuLabel(500,250,300,100,MenuID.Controls,this);
 		
 		CopyOnWriteArrayList<GameObject> mainMenuObjects = new CopyOnWriteArrayList<GameObject>();
 		mainMenuObjects.add(start);
@@ -121,17 +123,19 @@ public class Game extends Canvas implements Runnable{
 	public void update(){
 		switch(currentState){
 		case Game:
-			if(!music.isPlaying())music.loop();
+			if(!gameMusic.isPlaying())gameMusic.loop();
+			menuMusic.stop();
 			handler.update();
 			//main game update
 			break;
 		case PauseMenu:
-			music.stop();
+			gameMusic.stop();
 			pauseMenuHandler.update();
 			//pause menu update
 			break;
 		case MainMenu:
-			music.stop();
+			gameMusic.stop();
+			menuMusic.loop();
 			mainMenuHandler.update();
 			//main menu update
 			break;

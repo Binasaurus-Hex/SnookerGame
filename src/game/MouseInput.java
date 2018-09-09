@@ -87,6 +87,7 @@ public class MouseInput extends MouseAdapter {
 		case Game:
 			CueSystem cueSystem = game.getCueSystem();
 			SnookerBall cueBall = cueSystem.getCueBall();
+			if(cueBall == null)break;
 			if(cueBall.isSelected()){
 				if(game.controlMode == ControlMode.Cue){
 					cueSystem.hitCueBall(mouse);

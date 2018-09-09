@@ -7,17 +7,22 @@ import game.ID;
 import gameObjects.GameObject;
 
 public abstract class UI_Object extends GameObject{
+	protected double midX,midY;
 	protected boolean hover = false;
 	protected boolean selected = false;
 	protected boolean selectable = false;
 	protected MenuID menuID;
 	protected String name;
+	protected TextBox text;
 
 	public UI_Object(double x, double y, double width, double height,MenuID menuID,Game game) {
 		super(x, y, width, height, ID.UI_Object, game);
 		this.setMenuID(menuID);
 		this.name = menuID.getValue();
 		this.visible = true;
+		this.midX = x+halfWidth;
+		this.midY = y+halfHeight;
+		//this.text = new TextBox(midX,midY,);
 	}
 
 	public boolean isHover() {
@@ -67,4 +72,5 @@ public abstract class UI_Object extends GameObject{
 	public void setMenuID(MenuID menuID) {
 		this.menuID = menuID;
 	}
+	
 }
