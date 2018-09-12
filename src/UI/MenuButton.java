@@ -16,7 +16,7 @@ public class MenuButton extends UI_Object {
 	public MenuButton(double x, double y, double width, double height,MenuID menuID, Game game) {
 		super(x, y, width, height, menuID, game);
 		text = new TextBox(x+halfWidth,y+halfHeight,font,game);
-		text.addText(name);
+		text.addLine(name);
 		
 	}
 
