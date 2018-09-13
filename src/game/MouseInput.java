@@ -15,10 +15,12 @@ public class MouseInput extends MouseAdapter {
 	public MouseInput(Game game){
 		this.game = game;
 	}
+	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		Point mouse = e.getPoint();
 		switch(game.currentState){
+		
 		case Game:
 			CueSystem cueSystem = game.getCueSystem();
 			SnookerBall cueBall = cueSystem.getCueBall();
@@ -27,32 +29,18 @@ public class MouseInput extends MouseAdapter {
 				cueBall.grab();
 				cueBall.setMouse(mouse);
 			}
-			
 			break;
-			
+		
 		case MainMenu:
 			CopyOnWriteArrayList<GameObject> mainMenuObjects = game.getMainMenuHandler().getObjects();
-			UI_Object mainUI = getMenuObject(mainMenuObjects,mouse);
-			if(mainUI == null)break;
-			if(mainUI.isSelectable()&& mainUI.isHover()){
-				mainUI.setSelected(true);
-			}
-			else{
-				mainUI.setSelected(false);
-			}
+			menuClicked(mainMenuObjects,mouse);
 			break;
-			
+		
 		case PauseMenu:
 			CopyOnWriteArrayList<GameObject> pauseMenuObjects = game.getPauseMenuHandler().getObjects();
-			UI_Object pauseUI = getMenuObject(pauseMenuObjects,mouse);
-			if(pauseUI == null)break;
-			if(pauseUI.isSelectable()&& pauseUI.isHover()){
-				pauseUI.setSelected(true);
-			}
-			else{
-				pauseUI.setSelected(false);
-			}
+			menuClicked(pauseMenuObjects,mouse);
 			break;
+			
 		case Controls:
 			break;
 		case Settings:
@@ -64,9 +52,9 @@ public class MouseInput extends MouseAdapter {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		
 		Point mouse = e.getPoint();
 		switch(game.currentState){
+		
 		case Game:
 			CueSystem cueSystem = game.getCueSystem();
 			SnookerBall cueBall = cueSystem.getCueBall();
@@ -78,20 +66,17 @@ public class MouseInput extends MouseAdapter {
 				cueBall.setHover(false);
 			}
 			break;
+			
 		case MainMenu:
 			CopyOnWriteArrayList<GameObject> mainMenuObjects = game.getMainMenuHandler().getObjects();
-			UI_Object ui = getMenuObject(mainMenuObjects,mouse);
-			if(ui == null)break;
-			if(ui.isSelectable()){
-				ui.setHover(true);
-			}
-			else{
-				ui.setHover(false);
-			}
+			menuMoved(mainMenuObjects,mouse);
 			break;
+			
 		case PauseMenu:
-			//pause menu code
+			CopyOnWriteArrayList<GameObject> pauseMenuObjects = game.getPauseMenuHandler().getObjects();
+			menuMoved(pauseMenuObjects,mouse);
 			break;
+			
 		case Controls:
 			break;
 		case Settings:
@@ -145,7 +130,10 @@ public class MouseInput extends MouseAdapter {
 			break;
 		}
 	}
-	
+	/*
+	 * attemps to get the menu object that has intersected with the mouse, if one hasnt intersected this method returns null
+	 * else it returns the menu object that has been intersected by the mouse
+	 */
 	private UI_Object getMenuObject(CopyOnWriteArrayList<GameObject> menuObjects, Point point){
 		for(GameObject obj : menuObjects){
 			if(obj.getId() == ID.UI_Object){
@@ -162,7 +150,9 @@ public class MouseInput extends MouseAdapter {
 	}
 	
 	private void menuClicked(CopyOnWriteArrayList<GameObject> menuObjects,Point mouse){
+		//gets the object that has been clicked (returns null if one hasnt been clicked)
 		UI_Object UI = getMenuObject(menuObjects,mouse);
+		//returns if object is null (no object was clicked)
 		if(UI == null)return;
 		if(UI.isSelectable()&& UI.isHover()){
 			UI.setSelected(true);

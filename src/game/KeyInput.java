@@ -33,7 +33,10 @@ public class KeyInput extends KeyAdapter {
 			else{
 				game.controlMode = ControlMode.Cue;
 			}
-		
+			break;
+		case "P":
+			game.pause();
+			break;
 		}
 		
 	}

@@ -83,6 +83,7 @@ public class Sound {
     	playing = false;
     	paused = true;
     	framePosition = clip.getFramePosition();
+    	clip.stop();
     }
     
     public boolean isPlaying(){

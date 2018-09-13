@@ -170,8 +170,8 @@ public class Game extends Canvas implements Runnable{
 			//main game update
 			break;
 		case PauseMenu:
+			gameMusic.pause();
 			pauseMenuHandler.update();
-			System.out.println("updating");
 			break;
 		case MainMenu:
 			if(!menuMusic.isPlaying())menuMusic.loop();
