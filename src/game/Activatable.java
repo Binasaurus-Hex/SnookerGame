@@ -1,6 +1,6 @@
 package game;
 
-public interface Activateable {
+public interface Activatable {
 	void activate(Game game);
 
 }

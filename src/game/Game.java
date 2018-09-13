@@ -30,7 +30,6 @@ public class Game extends Canvas implements Runnable{
 	private int fps;
 	public Sound gameMusic;
 	public Sound menuMusic;
-	
 	public int score = 0;
 	
 	public Game(){
@@ -44,25 +43,29 @@ public class Game extends Canvas implements Runnable{
 		
 		//initialising the window
 		window = new Window(windowWidth,windowHeight,this,name);
-
+		
+		//initialising the cue system
 		cueSystem = new CueSystem(this);
 		
-		CopyOnWriteArrayList<GameObject> objects = initObjects();
-		handler = new Handler(objects);
+		/*
+		 * initialising all the game objects and
+		 * adding all the objects to their respective handlers
+		 */
 		
-		MenuButton start = new MenuButton(500,100,300,100,MenuID.PlayGame,this);
-		start.visible = true;
-		start.setSelectable(true);
-		MenuLabel controls = new MenuLabel(500,250,300,100,MenuID.Controls,this);
+		//handler for objects in the snooker 'world'
+		handler = new Handler(initObjects());
 		
-		CopyOnWriteArrayList<GameObject> mainMenuObjects = new CopyOnWriteArrayList<GameObject>();
-		mainMenuObjects.add(start);
-		mainMenuObjects.add(controls);
-		mainMenuHandler = new Handler(mainMenuObjects);
+		//handler for main menu objects
+		MainMenuCreator mainMenu = new MainMenuCreator(this);
+		mainMenuHandler = new Handler(mainMenu.getMainMenuObjects());
 		
-		CopyOnWriteArrayList<GameObject> pauseMenuObjects = null;
-		pauseMenuHandler = new Handler(pauseMenuObjects);
+		//handler for pause menu objects
+		PauseMenuCreator pauseMenu = new PauseMenuCreator(this);
+		pauseMenuHandler = new Handler(pauseMenu.getPauseMenuObjects());
 		
+		/*
+		 * initialising input for the game 
+		 */
 		MouseInput mouseInput = new MouseInput(this);
 		this.addMouseMotionListener(mouseInput);
 		this.addMouseListener(mouseInput);
@@ -70,6 +73,44 @@ public class Game extends Canvas implements Runnable{
 		KeyInput keyInput = new KeyInput(this);
 		this.addKeyListener(keyInput);
 		
+	}
+	
+	public int getWindowWidth() {
+		return windowWidth;
+	}
+
+
+	public int getWindowHeight() {
+		return windowHeight;
+	}
+
+
+	public Handler getHandler() {
+		return handler;
+	}
+
+	public CueSystem getCueSystem() {
+		return cueSystem;
+	}
+	
+	public Handler getMainMenuHandler() {
+		return mainMenuHandler;
+	}
+
+	public void setMainMenuHandler(Handler mainMenuHandler) {
+		this.mainMenuHandler = mainMenuHandler;
+	}
+
+	public Handler getPauseMenuHandler() {
+		return pauseMenuHandler;
+	}
+
+	public void setPauseMenuHandler(Handler pauseMenuHandler) {
+		this.pauseMenuHandler = pauseMenuHandler;
+	}
+	
+	public int getFps() {
+		return fps;
 	}
 
 	//loop of the entire game
@@ -120,7 +161,7 @@ public class Game extends Canvas implements Runnable{
 	/*
 	 * updates the game differenly depending on game state
 	 */
-	public void update(){
+	private void update(){
 		switch(currentState){
 		case Game:
 			if(!gameMusic.isPlaying())gameMusic.loop();
@@ -129,15 +170,20 @@ public class Game extends Canvas implements Runnable{
 			//main game update
 			break;
 		case PauseMenu:
-			gameMusic.stop();
 			pauseMenuHandler.update();
-			//pause menu update
+			System.out.println("updating");
 			break;
 		case MainMenu:
+			if(!menuMusic.isPlaying())menuMusic.loop();
 			gameMusic.stop();
-			menuMusic.loop();
 			mainMenuHandler.update();
 			//main menu update
+			break;
+		case Controls:
+			break;
+		case Settings:
+			break;
+		default:
 			break;
 		}
 		
@@ -147,7 +193,7 @@ public class Game extends Canvas implements Runnable{
 	/*
 	 * renders the game
 	 */
-	public void render(){
+	private void render(){
 		if(this.getBufferStrategy()==null){
 			this.createBufferStrategy(3);
 		}
@@ -175,6 +221,7 @@ public class Game extends Canvas implements Runnable{
 		}
 	}
 	
+	//control for game states
 	public void pause(){
 		currentState = GameState.PauseMenu;
 	}
@@ -187,49 +234,18 @@ public class Game extends Canvas implements Runnable{
 		currentState = GameState.MainMenu;
 	}
 	
-	public int getWindowWidth() {
-		return windowWidth;
-	}
-
-
-	public int getWindowHeight() {
-		return windowHeight;
-	}
-
-
-	public Handler getHandler() {
-		return handler;
-	}
-
-	public CueSystem getCueSystem() {
-		return cueSystem;
+	public void settings(){
+		currentState = GameState.Settings;
 	}
 	
-	public Handler getMainMenuHandler() {
-		return mainMenuHandler;
-	}
-
-	public void setMainMenuHandler(Handler mainMenuHandler) {
-		this.mainMenuHandler = mainMenuHandler;
-	}
-
-	public Handler getPauseMenuHandler() {
-		return pauseMenuHandler;
-	}
-
-	public void setPauseMenuHandler(Handler pauseMenuHandler) {
-		this.pauseMenuHandler = pauseMenuHandler;
+	public void controls(){
+		currentState = GameState.Controls;
 	}
 	
+	
+	
 
-	public int getFps() {
-		return fps;
-	}
-
-	public static void main(String[] a){
-		Game game = new Game();
-		game.start();
-	}
+	
 	
 	private CopyOnWriteArrayList<GameObject> initObjects(){
 		ObjectCreator objectCreator = new ObjectCreator(this);
@@ -240,6 +256,11 @@ public class Game extends Canvas implements Runnable{
 	public void reset(){
 		score = 0;
 		handler.setObjects(initObjects());
+	}
+	
+	public static void main(String[] a){
+		Game game = new Game();
+		game.start();
 	}
 
 }

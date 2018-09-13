@@ -2,6 +2,8 @@ package UI;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+
+import game.Activatable;
 import game.Game;
 import game.ID;
 import gameObjects.GameObject;
@@ -14,14 +16,16 @@ public abstract class UI_Object extends GameObject{
 	protected MenuID menuID;
 	protected String name;
 	protected TextBox text;
+	protected Activatable behaviour;
 
 	public UI_Object(double x, double y, double width, double height,MenuID menuID,Game game) {
 		super(x, y, width, height, ID.UI_Object, game);
 		this.setMenuID(menuID);
-		this.name = menuID.getValue();
+		this.name = menuID.getName();
 		this.visible = true;
 		this.midX = x+halfWidth;
 		this.midY = y+halfHeight;
+		this.behaviour = menuID.getBehaviour();
 		//this.text = new TextBox(midX,midY,);
 	}
 

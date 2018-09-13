@@ -14,7 +14,7 @@ public abstract class GameObject {
 	//created for collision detection purposes
 	protected double top,bottom,left,right;
 	protected double halfWidth,halfHeight;
-	public boolean visible = false;
+	protected boolean visible = false;
 	
 	protected Game game;
 	
@@ -127,6 +127,17 @@ public abstract class GameObject {
 
 	public double getHalfHeight() {
 		return halfHeight;
+	}
+	
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
 	}
 
 

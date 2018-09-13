@@ -8,11 +8,15 @@ import gameObjects.TriangleObject;
 public class Collision {
 	
 	
-	
+	/*
+	 * checks if two circle objects are colliding
+	 */
 	public static boolean isColliding(CircleObject c1,CircleObject c2){
 		return MathsMethods.intersectCircle(c1.getX(), c1.getY(), c1.getRadius(),c2.getX(), c2.getY(), c2.getRadius());
 	}
-	
+	/*
+	 * checks if a circle object is colliding with a rectangle object
+	 */
 	public static boolean isColliding(CircleObject c,RectangleObject r){
 		//gets the closest point on the rectangle to the circle
 		double closestX = MathsMethods.clamp(c.getX(), r.getLeft(),r.getRight());
@@ -29,7 +33,9 @@ public class Collision {
 			
 		}
 	}
-	
+	/*
+	 * checks if a circle object is colliding with a triangle object
+	 */
 	public static boolean isColliding(CircleObject c,TriangleObject t){
 		Polygon p = t.getPolygon();
 		
@@ -74,7 +80,9 @@ public class Collision {
 		
 	}
 	
-	
+	/*
+	 * colldides two circle objects together
+	 */
 	public static void collide(CircleObject c1,CircleObject c2){
 		//calculating the velocities of the two planets
 		double[] resultA = PhysicsMethods.collidedVel(c1, c2);
@@ -89,6 +97,9 @@ public class Collision {
 		c2.setvY(resultB[1]);
 	}
 	
+	/*
+	 * collides a circle object with a rectangle object
+	 */
 	public static void collide(CircleObject c,RectangleObject r){
 		double deceleration = 0.5;
 		//gets the closest point on the rectangle to the circle
@@ -107,7 +118,9 @@ public class Collision {
 			c.setvY(c.getvY()*-(1-deceleration));
 		}
 	}
-	
+	/*
+	 * collides a circle object with a triangle object
+	 */
 	public static void collide(CircleObject c,TriangleObject t){
 		double deceleration = 0.5;
 		
@@ -122,7 +135,9 @@ public class Collision {
 		c.setvX(newVelocity[0]*deceleration);
 		c.setvY(newVelocity[1]*deceleration);
 	}
-	
+	/*
+	 * moves a circle object and a triangle object apart so they are no longer colliding
+	 */
 	public static void resolveCollision(CircleObject c,TriangleObject t){
 		double distance = c.getRadius()-(MathsMethods.distance(c.getX(), c.getY(), t.getClosestPoint()[0], t.getClosestPoint()[1]));
 		double phi = PhysicsMethods.vectorAngle(t.getClosestPoint()[0]-c.getX(), t.getClosestPoint()[1]-c.getY());
@@ -131,7 +146,9 @@ public class Collision {
 		c.setX(c.getX()+xDistance);
 		c.setY(c.getY()+yDistance);
 	}
-	
+	/*
+	 * moves two circle objects apart so they are no longer colliding
+	 */
 	private static void resolveCollision(CircleObject c1,CircleObject c2){
 		double distance = (c1.getRadius()+c2.getRadius())-MathsMethods.distance(c1.getX(), c1.getY(), c2.getX(), c2.getY());
 		double phi = PhysicsMethods.vectorAngle(c2.getX()-c1.getX(), c2.getY()-c1.getY());
@@ -141,7 +158,9 @@ public class Collision {
 		c1.setY(c1.getY()+yDistance);
 		
 	}
-	
+	/*
+	 * moves a circle object and a rectangle object apart so they are no longer colliding
+	 */
 	private static void resolveCollision(CircleObject c,RectangleObject r){
 		//gets the closest point on the rectangle to the circle
 		double closestX = MathsMethods.clamp(c.getX(), r.getLeft(),r.getRight());

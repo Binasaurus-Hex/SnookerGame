@@ -24,20 +24,8 @@ public class MenuButton extends UI_Object {
 	public void update(CopyOnWriteArrayList<GameObject> objects) {
 		text.update();
 		if(selected){
-			switch(menuID){
-			case Controls:
-				break;
-			case Exit:
-				break;
-			case PlayGame:
-				game.play();
-				selected = false;
-				break;
-			case Settings:
-				break;
-			default:
-				break;
-			}
+			behaviour.activate(game);
+			selected = false;
 		}
 		
 	}

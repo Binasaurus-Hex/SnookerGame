@@ -33,7 +33,7 @@ public class ObjectCreator {
 		CopyOnWriteArrayList<GameObject> tableObjects = new CopyOnWriteArrayList<GameObject>();
 		//adding the background
 		Table table = new Table(0,0,game.getWindowWidth(),game.getWindowHeight(),game);
-		table.visible = true;
+		table.setVisible(true);
 		tableObjects.add(table);
 		
 		CopyOnWriteArrayList<GameObject> tableOuterSides = getTableOuter();
@@ -197,28 +197,26 @@ public class ObjectCreator {
 		
 		//making the balls
 		SnookerBall cueBall = new SnookerBall(100,200,15,1,Color.white,game);
-		//cueBall.setFollowMouse(true);
-		cueBall.visible = true;
-		//cueBall.setCollidable(false);
+		cueBall.setVisible(true);
 		balls.add(cueBall);
 		
 		SnookerBall ball_1 = new SnookerBall(200,200,15,1,Color.red,game);
 		ball_1.setvX(0.000001);
 		ball_1.setvY(0.000001);
-		ball_1.visible = true;
+		ball_1.setVisible(true);
 		balls.add(ball_1);
 		
 		SnookerBall ball_3 = new SnookerBall(400,300,15,1,Color.green,game);
 		ball_3.setvX(0.000001);
 		ball_3.setvY(0.000001);
-		ball_3.visible = true;
+		ball_3.setVisible(true);
 		
 		balls.add(ball_3);
 		
 		SnookerBall ball_4 = new SnookerBall(700,400,15,1,Color.black,game);
 		ball_4.setvX(0.000001);
 		ball_4.setvY(0.000001);
-		ball_4.visible = true;
+		ball_4.setVisible(true);
 		
 		balls.add(ball_4);
 		

@@ -11,6 +11,8 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Sound {
+	private int framePosition = 0;
+	private boolean paused = false;
     private Clip clip;
     private boolean playing = false;
     public Sound(String fileName) {
@@ -50,20 +52,44 @@ public class Sound {
     }
     public void play(){
     	playing = true;
-        clip.setFramePosition(0);  // Must always rewind!
+    	if(paused){
+    		clip.setFramePosition(framePosition);
+    		paused = false;
+    	}
+    	else{
+    		clip.setFramePosition(0);	
+    	}
         clip.start();
         
     }
     public void loop(){
     	playing = true;
+    	if(paused){
+    		clip.setFramePosition(framePosition);
+    		paused = false;
+    	}
+    	else{
+    		clip.setFramePosition(0);
+    	}
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
     public void stop(){
     	playing = false;
+    	paused = false;
     	clip.stop();
+    }
+    
+    public void pause(){
+    	playing = false;
+    	paused = true;
+    	framePosition = clip.getFramePosition();
     }
     
     public boolean isPlaying(){
     	return playing;
+    }
+    
+    public boolean isPaused(){
+    	return paused;
     }
 }
