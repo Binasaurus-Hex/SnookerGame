@@ -16,7 +16,7 @@ public class ObjectCreator {
 		this.game = game;
 	}
 	
-	public CopyOnWriteArrayList<GameObject> getObjectList(){
+	public CopyOnWriteArrayList<GameObject> getObjects(){
 		CopyOnWriteArrayList<GameObject> gameObjects = new CopyOnWriteArrayList<GameObject>();
 		
 		CopyOnWriteArrayList<GameObject> tableObjects = getTableObjects();

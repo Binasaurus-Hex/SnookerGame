@@ -1,6 +1,7 @@
 package gameObjects;
 
 import Physics.Collision;
+import Physics.MathsMethods;
 import game.Game;
 import game.ID;
 
@@ -75,6 +76,15 @@ public abstract class CircleObject extends GameObject {
 	
 	public void collide(TriangleObject triangle){
 		Collision.collide(this, triangle);
+	}
+	
+	public boolean passedHalf(CircleObject c){
+		if(MathsMethods.distance(x,y,c.x,c.y)<c.radius){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 	
 

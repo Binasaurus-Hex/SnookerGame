@@ -21,17 +21,12 @@ public class MenuLabel extends UI_Object {
 	public MenuLabel(double x, double y, double width, double height,MenuID menuID, Game game) {
 		super(x, y, width, height, menuID, game);
 		text = new TextBox((x+halfWidth),(y+halfHeight),font,game);
-		text.addLine("Controls");
 		
 	}
 
 	@Override
 	public void update(CopyOnWriteArrayList<GameObject> objects) {
-		
 		text.update();
-		
-		
-
 	}
 
 	@Override
@@ -41,6 +36,19 @@ public class MenuLabel extends UI_Object {
 		g.setColor(Color.white);
 		text.render(g);
 		
+	}
+	
+	public void setFontSize(int size){
+		Font font = new Font("Impact",Font.PLAIN,size);
+		text = new TextBox((x+halfWidth),(y+halfHeight),font,game);
+	}
+	
+	public void addText(String block){
+		text.addText(block);
+	}
+	
+	public void addLine(String line){
+		text.addLine(line);
 	}
 
 }

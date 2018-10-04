@@ -12,7 +12,7 @@ public class MainMenuCreator {
 		this.game = game;
 	}
 	
-	public CopyOnWriteArrayList<GameObject> getMainMenuObjects(){
+	public CopyOnWriteArrayList<GameObject> getObjects(){
 		CopyOnWriteArrayList<GameObject> menuObjects = new CopyOnWriteArrayList<GameObject>();
 		
 		menuObjects.addAll(getButtons());

@@ -13,7 +13,7 @@ public class PauseMenuCreator {
 		this.game = game;
 	}
 	
-	public CopyOnWriteArrayList<GameObject> getPauseMenuObjects(){
+	public CopyOnWriteArrayList<GameObject> getObjects(){
 		CopyOnWriteArrayList<GameObject> menuObjects = new CopyOnWriteArrayList<GameObject>();
 		menuObjects.addAll(getButtons());
 		menuObjects.addAll(getLabels());

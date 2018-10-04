@@ -4,12 +4,12 @@ import game.Activatable;
 import game.GameState;
 
 public enum MenuID {
-	
+	Label("",null),
 	PlayGame("Play",(game)->game.play()),
 	Resume("Resume",(game)->game.play()),
 	Menu("Menu",(game)->game.menu()),
-	Settings("Settings",(game)->game.currentState = GameState.Game),
-	Controls("Controls",(game)->game.pause()),
+	Settings("Settings",(game)->game.settings()),
+	Controls("Controls",(game)->game.controls()),
 	Exit("Exit Game",(game)->System.exit(0));
 	
 	private String name;

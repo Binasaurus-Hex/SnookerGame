@@ -3,12 +3,11 @@ package game;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import UI.MenuButton;
-import UI.MenuID;
-import UI.MenuLabel;
 import gameObjects.GameObject;
 
 public class Game extends Canvas implements Runnable{
@@ -21,6 +20,7 @@ public class Game extends Canvas implements Runnable{
 	private Handler handler;
 	private Handler mainMenuHandler;
 	private Handler pauseMenuHandler;
+	private Handler controlMenuHandler;
 	private String name = "SnookerGame";
 	private Thread thread;
 	private boolean running = false;
@@ -34,11 +34,11 @@ public class Game extends Canvas implements Runnable{
 	
 	public Game(){
 		//initializing the main game music
-		gameMusic = new Sound("/Music.wav");
-		menuMusic = new Sound("/AliA.wav");
+		gameMusic = new Sound("/nick game loop.wav");
+		menuMusic = new Sound("/Music.wav");
 		
 		//initialising the default state of the game 
-		controlMode = ControlMode.Mouse;
+		controlMode = ControlMode.Cue;
 		currentState = GameState.MainMenu;
 		
 		//initialising the window
@@ -57,11 +57,15 @@ public class Game extends Canvas implements Runnable{
 		
 		//handler for main menu objects
 		MainMenuCreator mainMenu = new MainMenuCreator(this);
-		mainMenuHandler = new Handler(mainMenu.getMainMenuObjects());
+		mainMenuHandler = new Handler(mainMenu.getObjects());
 		
 		//handler for pause menu objects
 		PauseMenuCreator pauseMenu = new PauseMenuCreator(this);
-		pauseMenuHandler = new Handler(pauseMenu.getPauseMenuObjects());
+		pauseMenuHandler = new Handler(pauseMenu.getObjects());
+		
+		//handler for the control menu objects
+		ControlMenuCreator controlMenu = new ControlMenuCreator(this);
+		controlMenuHandler = new Handler(controlMenu.getObjects());
 		
 		/*
 		 * initialising input for the game 
@@ -107,6 +111,14 @@ public class Game extends Canvas implements Runnable{
 
 	public void setPauseMenuHandler(Handler pauseMenuHandler) {
 		this.pauseMenuHandler = pauseMenuHandler;
+	}
+	
+	public Handler getControlMenuHandler() {
+		return controlMenuHandler;
+	}
+
+	public void setControlMenuHandler(Handler controlMenuHandler) {
+		this.controlMenuHandler = controlMenuHandler;
 	}
 	
 	public int getFps() {
@@ -174,12 +186,13 @@ public class Game extends Canvas implements Runnable{
 			pauseMenuHandler.update();
 			break;
 		case MainMenu:
-			if(!menuMusic.isPlaying())menuMusic.loop();
+			if(!menuMusic.isPlaying())//menuMusic.loop();
 			gameMusic.stop();
 			mainMenuHandler.update();
 			//main menu update
 			break;
 		case Controls:
+			controlMenuHandler.update();
 			break;
 		case Settings:
 			break;
@@ -209,10 +222,21 @@ public class Game extends Canvas implements Runnable{
 				handler.render(g);
 				break;
 			case PauseMenu:
+				handler.render(g);
+				Color color = new Color(0, 0, 0, 150);
+				g.setColor(color);
+				g.fillRect(0, 0, windowWidth, windowHeight);
 				pauseMenuHandler.render(g);
 				break;
 			case MainMenu:
 				mainMenuHandler.render(g);
+				break;
+			case Controls:
+				controlMenuHandler.render(g);
+				break;
+			case Settings:
+				break;
+			default :
 				break;
 			}
 			
@@ -249,7 +273,7 @@ public class Game extends Canvas implements Runnable{
 	
 	private CopyOnWriteArrayList<GameObject> initObjects(){
 		ObjectCreator objectCreator = new ObjectCreator(this);
-		CopyOnWriteArrayList<GameObject> objects = objectCreator.getObjectList();
+		CopyOnWriteArrayList<GameObject> objects = objectCreator.getObjects();
 		return objects;
 	}
 	

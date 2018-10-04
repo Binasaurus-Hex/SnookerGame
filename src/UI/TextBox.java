@@ -91,7 +91,6 @@ public class TextBox{
 		setHeight();
 		
 	}
-
 	
 	public void render(Graphics g) {
 		g.setFont(font);
