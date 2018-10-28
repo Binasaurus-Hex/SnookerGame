@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import gameObjects.GameObject;
@@ -21,6 +22,7 @@ public class Game extends Canvas implements Runnable{
 	private Handler mainMenuHandler;
 	private Handler pauseMenuHandler;
 	private Handler controlMenuHandler;
+	private Handler winMenuHandler;
 	private String name = "SnookerGame";
 	private Thread thread;
 	private boolean running = false;
@@ -30,12 +32,15 @@ public class Game extends Canvas implements Runnable{
 	private int fps;
 	public Sound gameMusic;
 	public Sound menuMusic;
+	public Sound winSound;
 	public int score = 0;
+	public boolean musicOn = true;
 	
 	public Game(){
 		//initializing the main game music
 		gameMusic = new Sound("/nick game loop.wav");
 		menuMusic = new Sound("/Music.wav");
+		winSound = new Sound("/tuturu.wav");
 		
 		//initialising the default state of the game 
 		controlMode = ControlMode.Cue;
@@ -66,6 +71,10 @@ public class Game extends Canvas implements Runnable{
 		//handler for the control menu objects
 		ControlMenuCreator controlMenu = new ControlMenuCreator(this);
 		controlMenuHandler = new Handler(controlMenu.getObjects());
+		
+		WinMenuCreator winMenu = new WinMenuCreator(this);
+		winMenuHandler = new Handler(winMenu.getObjects());
+		
 		
 		/*
 		 * initialising input for the game 
@@ -121,6 +130,15 @@ public class Game extends Canvas implements Runnable{
 		this.controlMenuHandler = controlMenuHandler;
 	}
 	
+	public Handler getWinMenuHandler() {
+		return winMenuHandler;
+	}
+
+	public void setWinMenuHandler(Handler winMenuHandler) {
+		this.winMenuHandler = winMenuHandler;
+	}
+	
+	
 	public int getFps() {
 		return fps;
 	}
@@ -148,7 +166,7 @@ public class Game extends Canvas implements Runnable{
 			if(System.currentTimeMillis() - timer > 1000){
 				timer += 1000;
 				fps = frames;
-				System.out.println("FPS: "+ frames);
+				//System.out.println("FPS: "+ frames);
 				frames = 0;
 			}
 		}
@@ -176,10 +194,14 @@ public class Game extends Canvas implements Runnable{
 	private void update(){
 		switch(currentState){
 		case Game:
-			if(!gameMusic.isPlaying())gameMusic.loop();
+			//main game update
+			if(score == 16)win();
 			menuMusic.stop();
 			handler.update();
-			//main game update
+			if(musicOn) {
+				if(!gameMusic.isPlaying())gameMusic.loop();
+			}
+			else gameMusic.stop();
 			break;
 		case PauseMenu:
 			gameMusic.pause();
@@ -196,6 +218,8 @@ public class Game extends Canvas implements Runnable{
 			break;
 		case Settings:
 			break;
+		case Win:
+			winMenuHandler.update();
 		default:
 			break;
 		}
@@ -223,8 +247,8 @@ public class Game extends Canvas implements Runnable{
 				break;
 			case PauseMenu:
 				handler.render(g);
-				Color color = new Color(0, 0, 0, 150);
-				g.setColor(color);
+				Color fade = new Color(0, 0, 0, 150);
+				g.setColor(fade);
 				g.fillRect(0, 0, windowWidth, windowHeight);
 				pauseMenuHandler.render(g);
 				break;
@@ -236,6 +260,13 @@ public class Game extends Canvas implements Runnable{
 				break;
 			case Settings:
 				break;
+			case Win:
+				handler.render(g);
+				Color fadewin = new Color(0, 255, 0, 150);
+				g.setColor(fadewin);
+				g.fillRect(0, 0, windowWidth, windowHeight);
+				winMenuHandler.render(g);
+				
 			default :
 				break;
 			}
@@ -266,10 +297,16 @@ public class Game extends Canvas implements Runnable{
 		currentState = GameState.Controls;
 	}
 	
+	public void win() {
+		winSound.play();
+		score = 0;
+		currentState = GameState.Win;
+	}
 	
-	
-
-	
+	public void lose() {
+		score = 0;
+		currentState = GameState.Lose;
+	}
 	
 	private CopyOnWriteArrayList<GameObject> initObjects(){
 		ObjectCreator objectCreator = new ObjectCreator(this);

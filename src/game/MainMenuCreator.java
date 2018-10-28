@@ -24,20 +24,9 @@ public class MainMenuCreator {
 	private CopyOnWriteArrayList<GameObject> getButtons(){
 		CopyOnWriteArrayList<GameObject> buttons = new CopyOnWriteArrayList<GameObject>();
 		
-		MenuButton start = new MenuButton(500,100,300,100,MenuID.PlayGame,game);
-		start.setVisible(true);
-		start.setSelectable(true);
-		buttons.add(start);
-		
-		MenuButton controls = new MenuButton(500,250,300,100,MenuID.Controls,game);
-		controls.setSelectable(true);
-		controls.setVisible(true);
-		buttons.add(controls);
-		
-		MenuButton exit = new MenuButton(500,400,300,100,MenuID.Exit,game);
-		exit.setSelectable(true);
-		exit.setVisible(true);
-		buttons.add(exit);
+		buttons.add(new MenuButton(500,100,300,100,MenuID.PlayGame,game));
+		buttons.add(new MenuButton(500,250,300,100,MenuID.Controls,game));
+		buttons.add(new MenuButton(500,400,300,100,MenuID.Exit,game));
 		
 		return buttons;
 	}

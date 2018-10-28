@@ -195,30 +195,73 @@ public class ObjectCreator {
 		
 		CopyOnWriteArrayList<GameObject> balls = new CopyOnWriteArrayList<GameObject>();
 		
+		int xOffset = 100;
+		int yOffset = 10;
+		int mass = 1;
+		int radius = 15;
+		//distance between y = 35
+		
 		//making the balls
-		SnookerBall cueBall = new SnookerBall(100,200,15,1,Color.white,game);
-		cueBall.setVisible(true);
+		
+		//cue ball
+		SnookerBall cueBall = new SnookerBall(100+xOffset,200+yOffset,radius,mass,Color.white,game);
 		balls.add(cueBall);
 		
-		SnookerBall ball_1 = new SnookerBall(200,200,15,1,Color.red,game);
-		ball_1.setvX(0.000001);
-		ball_1.setvY(0.000001);
-		ball_1.setVisible(true);
+		//first row
+		SnookerBall ball_1 = new SnookerBall(600+xOffset,250+yOffset,radius,mass,Color.yellow,game);
 		balls.add(ball_1);
 		
-		SnookerBall ball_3 = new SnookerBall(400,300,15,1,Color.green,game);
-		ball_3.setvX(0.000001);
-		ball_3.setvY(0.000001);
-		ball_3.setVisible(true);
+		SnookerBall ball_2 = new SnookerBall(600+xOffset,285+yOffset,radius,mass,Color.red,game);
+		balls.add(ball_2);
 		
+		SnookerBall ball_3 = new SnookerBall(600+xOffset,320+yOffset,radius,mass,Color.red,game);
 		balls.add(ball_3);
 		
-		SnookerBall ball_4 = new SnookerBall(700,400,15,1,Color.black,game);
-		ball_4.setvX(0.000001);
-		ball_4.setvY(0.000001);
-		ball_4.setVisible(true);
-		
+		SnookerBall ball_4 = new SnookerBall(600+xOffset,355+yOffset,radius,mass,Color.yellow,game);
 		balls.add(ball_4);
+		
+		SnookerBall ball_5 = new SnookerBall(600+xOffset,390+yOffset,radius,mass,Color.yellow,game);
+		balls.add(ball_5);
+		
+		//second row
+		SnookerBall ball_6 = new SnookerBall(570+xOffset,268+yOffset,radius,mass,Color.red,game);
+		balls.add(ball_6);
+		
+		SnookerBall ball_7 = new SnookerBall(570+xOffset,303+yOffset,radius,mass,Color.red,game);
+		balls.add(ball_7);
+		
+		SnookerBall ball_8 = new SnookerBall(570+xOffset,338+yOffset,radius,mass,Color.red,game);
+		balls.add(ball_8);
+		
+		SnookerBall ball_9 = new SnookerBall(570+xOffset,373+yOffset,radius,mass,Color.yellow,game);
+		balls.add(ball_9);
+		
+		//third row
+		SnookerBall ball_10 = new SnookerBall(540+xOffset,285+yOffset,radius,mass,Color.red,game);
+		balls.add(ball_10);
+		
+		SnookerBall ball_11 = new SnookerBall(540+xOffset,320+yOffset,radius,mass,Color.black,game);
+		balls.add(ball_11);
+		
+		SnookerBall ball_12 = new SnookerBall(540+xOffset,355+yOffset,radius,mass,Color.red,game);
+		balls.add(ball_12);
+		
+		//fourth row
+		SnookerBall ball_13 = new SnookerBall(510+xOffset,303+yOffset,radius,mass,Color.yellow,game);
+		balls.add(ball_13);
+		
+		SnookerBall ball_14 = new SnookerBall(510+xOffset,338+yOffset,radius,mass,Color.yellow,game);
+		balls.add(ball_14);
+		
+		//fifth row
+		
+		SnookerBall ball_15 = new SnookerBall(480+xOffset,320+yOffset,radius,mass,Color.yellow,game);
+		balls.add(ball_15);
+		
+		
+		
+		
+		
 		
 		return balls;
 	}

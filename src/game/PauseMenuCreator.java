@@ -23,15 +23,9 @@ public class PauseMenuCreator {
 	
 	private CopyOnWriteArrayList<GameObject> getButtons(){
 		CopyOnWriteArrayList<GameObject> buttons = new CopyOnWriteArrayList<GameObject>();
-		MenuButton resume = new MenuButton(500,250,300,100,MenuID.Resume,game);
-		resume.setSelectable(true);
-		resume.setVisible(true);
-		MenuButton menu = new MenuButton(500,400,300,100,MenuID.Menu,game);
-		menu.setSelectable(true);
-		menu.setVisible(true);
 		
-		buttons.add(resume);
-		buttons.add(menu);
+		buttons.add(new MenuButton(500,250,300,100,MenuID.Resume,game));
+		buttons.add(new MenuButton(500,400,300,100,MenuID.Menu,game));
 		
 		return buttons;
 	}

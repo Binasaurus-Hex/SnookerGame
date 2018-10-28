@@ -1,7 +1,6 @@
 package UI;
 
 import game.Activatable;
-import game.GameState;
 
 public enum MenuID {
 	Label("",null),
@@ -10,7 +9,11 @@ public enum MenuID {
 	Menu("Menu",(game)->game.menu()),
 	Settings("Settings",(game)->game.settings()),
 	Controls("Controls",(game)->game.controls()),
-	Exit("Exit Game",(game)->System.exit(0));
+	Exit("Exit Game",(game)->System.exit(0)),
+	PlayAgain("Play Again",(game)->{
+		game.reset();
+		game.play();
+		});
 	
 	private String name;
 	private Activatable behaviour;

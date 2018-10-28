@@ -47,6 +47,9 @@ public class MouseInput extends MouseAdapter {
 			break;
 		case Settings:
 			break;
+		case Win:
+			CopyOnWriteArrayList<GameObject> winMenuObjects = game.getWinMenuHandler().getObjects();
+			menuClicked(winMenuObjects,mouse);
 		default:
 			break;
 		}
@@ -85,6 +88,9 @@ public class MouseInput extends MouseAdapter {
 			break;
 		case Settings:
 			break;
+		case Win:
+			CopyOnWriteArrayList<GameObject> winMenuObjects = game.getWinMenuHandler().getObjects();
+			menuMoved(winMenuObjects,mouse);
 		default:
 			break;
 		}

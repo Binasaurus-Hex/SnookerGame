@@ -23,14 +23,15 @@ public class ControlMenuCreator {
 	
 	public CopyOnWriteArrayList<GameObject> getButtons(){
 		CopyOnWriteArrayList<GameObject> buttons = new CopyOnWriteArrayList<GameObject>();
-		MenuButton menu = new MenuButton(500,400,300,100,MenuID.Menu,game);
-		menu.setSelectable(true);
-		buttons.add(menu);
+		
+		buttons.add(new MenuButton(500,400,300,100,MenuID.Menu,game));
+		
 		return buttons;
 	}
 	
 	public CopyOnWriteArrayList<GameObject> getLabels(){
 		CopyOnWriteArrayList<GameObject> labels = new CopyOnWriteArrayList<GameObject>();
+		
 		MenuLabel controlsTitle = new MenuLabel(450,100,400,100,MenuID.Label,game);
 		controlsTitle.addLine("Controls");
 		labels.add(controlsTitle);
@@ -40,7 +41,8 @@ public class ControlMenuCreator {
 		controls.addText("M = switch between 'snooker' and 'grab' modes \n"
 				+ "B = resets all balls to start positions \n"
 				+ "ESC = main menu \n"
-				+ "P = pause menu");
+				+ "P = pause menu\n"
+				+ "O = music on/off");
 		
 		labels.add(controls);
 		return labels;

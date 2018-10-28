@@ -16,9 +16,11 @@ public class KeyInput extends KeyAdapter {
 		String key = KeyEvent.getKeyText(keyCode);
 		SnookerBall cueBall = game.getCueSystem().getCueBall();
 		switch(key){
+		//releases ball if grabbed
 		case "F":
 			cueBall.release();
 			break;
+		//goes to menu
 		case "Escape":
 			game.menu();
 			break;
@@ -34,11 +36,14 @@ public class KeyInput extends KeyAdapter {
 				game.controlMode = ControlMode.Cue;
 			}
 			break;
+			
 		case "P":
 			game.pause();
 			break;
+			
+		case "O":
+			game.musicOn ^= true;
 		}
-		
 	}
 	
 	

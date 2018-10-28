@@ -12,7 +12,7 @@ public abstract class UI_Object extends GameObject{
 	protected double midX,midY;
 	protected boolean hover = false;
 	protected boolean selected = false;
-	protected boolean selectable = false;
+	protected boolean selectable = true;
 	protected MenuID menuID;
 	protected String name;
 	protected TextBox text;

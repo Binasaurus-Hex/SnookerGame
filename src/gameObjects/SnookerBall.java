@@ -19,11 +19,14 @@ public class SnookerBall extends CircleObject {
 	private boolean moveable = true;
 	private Point mouse = new Point();
 	Sound snookerSound = new Sound("/ballHit.wav");
+	Sound pottedSound = new Sound("/toromaru.wav");
 
 	public SnookerBall(double x, double y,double radius,double mass,Color color,Game game) {
 		super(x, y, radius,mass,ID.SnookerBall,game);
 		this.color = color;
-		
+		this.setvX(0.000001);
+		this.setvY(0.000001);
+		this.setVisible(true);
 		
 	}
 
@@ -133,8 +136,8 @@ public class SnookerBall extends CircleObject {
 			case TableHole:
 				TableHole hole = (TableHole)obj;
 				if(isColliding(hole)){
-					game.score++;
-					System.out.println(game.score);
+					pottedSound.play();
+					potted();
 					colliding = true;
 					objects.remove(this);
 				}
@@ -195,6 +198,23 @@ public class SnookerBall extends CircleObject {
 			break;
 		}
 	}
+	
+	private void potted() {
+		if(color == Color.white) {
+			//game over
+			game.reset();
+		}
+		if((color == Color.red) || (color == Color.yellow)) {
+			game.score++;
+		}
+		else if((game.score < 14) && (color == Color.black)){
+			game.reset();
+		}
+		else {
+			game.score++;
+		}
+		System.out.println("score = "+ game.score);
+	}
 
 	public boolean isSelectable() {
 		return selectable;
@@ -215,5 +235,6 @@ public class SnookerBall extends CircleObject {
 	public void setMouse(Point mouse) {
 		this.mouse = mouse;
 	}
+	
 
 }
